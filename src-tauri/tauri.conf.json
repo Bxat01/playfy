@@ -1,0 +1,56 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Playfy",
+  "version": "25.10.8",
+  "identifier": "app.playfy.desktop",
+  "build": {
+    "beforeDevCommand": "node scripts/build-platform.mjs dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "node scripts/build-platform.mjs build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Playfy",
+        "width": 1360,
+        "height": 860,
+        "minWidth": 900,
+        "minHeight": 640,
+        "decorations": false,
+        "dragDropEnabled": false
+      }
+    ],
+    "security": {
+      "assetProtocol": {
+        "enable": true,
+        "scope": []
+      },
+      "csp": {
+        "default-src": "'self' customprotocol: asset:",
+        "connect-src": "ipc: http://ipc.localhost", 
+        "img-src": "'self' asset: http://asset.localhost blob: data: https://cdn.discordapp.com https://media.discordapp.net https://cdn.cloudflare.steamstatic.com https://res.cloudinary.com",
+        "style-src": "'unsafe-inline' 'self'"
+      }
+    }
+  }, 
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "publisher": "Bxat01",
+    "homepage": "https://github.com/Bxat01/playfy",
+    "license": "MIT",
+    "licenseFile": "../LICENSE",
+    "copyright": "Copyright (c) 2025-2026 Bxat01",
+    "shortDescription": "Playfy desktop session manager",
+    "longDescription": "Playfy is an open-source desktop app for managing Discord game activity sessions.",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "resources": []
+  }
+}
