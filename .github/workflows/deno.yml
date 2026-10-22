@@ -1,0 +1,20 @@
+﻿name: Deno (optional)
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - deno.json
+      - deno.jsonc
+      - "**/*.deno.ts"
+permissions:
+  contents: read
+jobs:
+  check:
+    if: ${{ hashFiles('deno.json', 'deno.jsonc') != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - run: deno task check
