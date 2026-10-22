@@ -1,0 +1,20 @@
+﻿name: SLSA provenance (public repositories)
+on:
+  workflow_dispatch:
+    inputs:
+      base64_subjects:
+        description: Base64-encoded sha256sum output for the release artifacts
+        required: true
+        type: string
+permissions: {}
+jobs:
+  provenance:
+    if: ${{ github.event.repository.visibility == 'public' }}
+    permissions:
+      actions: read
+      id-token: write
+      contents: write
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v2.1.0
+    with:
+      base64-subjects: ${{ inputs.base64_subjects }}
+      upload-assets: true
