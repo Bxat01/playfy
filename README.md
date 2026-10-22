@@ -122,4 +122,4 @@ Playfy is not affiliated with, endorsed by, or sponsored by Discord Inc. or any 
 
 ## License
 
-[MIT](LICENSE) - original work copyright (c) 2025 Mark Terence Tiglao; modifications copyright (c) 2025-2026 Bxat01.
+Playfy is dual-licensed under [MIT](LICENSE) or [Apache-2.0](LICENSE-APACHE), at your option. The original work's MIT notice and attribution are preserved in [LICENSE](LICENSE) and [CREDITS.md](CREDITS.md).
