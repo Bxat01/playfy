@@ -1,0 +1,18 @@
+[package]
+name = "playfy-game-host"
+version = "25.10.8"
+edition = "2021"
+
+[build-dependencies]
+cc = "1.0"
+
+[[bin]]
+name = "game-host"
+path = "src/main.rs"
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
