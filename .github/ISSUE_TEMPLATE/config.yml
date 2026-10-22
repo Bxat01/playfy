@@ -1,0 +1,8 @@
+﻿blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/Bxat01/playfy/security/advisories/new
+    about: Report security issues privately.
+  - name: Documentation
+    url: https://github.com/Bxat01/playfy#readme
+    about: Read the project documentation before opening a question.
