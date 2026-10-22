@@ -1,0 +1,23 @@
+﻿name: Datadog Synthetics
+on:
+  workflow_dispatch:
+    inputs:
+      public_ids:
+        description: Optional comma-separated Datadog Synthetic test public IDs
+        required: false
+        type: string
+permissions:
+  contents: read
+jobs:
+  synthetics:
+    if: ${{ inputs.public_ids != '' || hashFiles('**/*.synthetics.json') != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Datadog Synthetic tests
+        uses: DataDog/synthetics-ci-github-action@v4.1.1
+        with:
+          api-key: ${{ secrets.DD_API_KEY }}
+          app-key: ${{ secrets.DD_APP_KEY }}
+          public-ids: ${{ inputs.public_ids }}
+
