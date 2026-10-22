@@ -1,0 +1,13 @@
+{
+  "productName": "Playfy",
+  "bundle": {
+    "windows": {
+      "nsis": {
+        "installerIcon": "icons/icon.ico",
+        "installMode": "currentUser",
+        "languages": ["English"],
+        "displayLanguageSelector": false
+      }
+    }
+  }
+}
