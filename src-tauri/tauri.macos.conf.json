@@ -1,0 +1,8 @@
+{
+  "productName": "Playfy",
+  "bundle": {
+    "resources": {
+      "resources/src-darwin": "data/src-darwin"
+    }
+  }
+}
