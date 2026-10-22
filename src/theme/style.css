@@ -1,0 +1,541 @@
+@import "tailwindcss";
+
+/*
+ * Playfy - design tokens
+ * ---------------------------------------------------------------------------
+ * Every colour, radius and surface treatment used by the UI resolves through a
+ * CSS custom property defined here. The settings screen simply swaps the
+ * [data-*] attributes on <html> (or writes a couple of inline variables), which
+ * is why theme changes are instant and never cause a re-render.
+ */
+
+@theme inline {
+  --color-app: var(--c-app);
+  --color-panel: var(--c-panel);
+  --color-elevated: var(--c-elevated);
+  --color-line: var(--c-line);
+  --color-ink: var(--c-ink);
+  --color-muted: var(--c-muted);
+  --color-faint: var(--c-faint);
+  --color-accent: var(--c-accent);
+  --color-accent-soft: var(--c-accent-soft);
+  --color-accent-ink: var(--c-accent-ink);
+  --color-danger: var(--c-danger);
+  --color-success: var(--c-success);
+  --color-warning: var(--c-warning);
+
+  --font-sans: var(--c-font);
+  --font-mono: var(--c-mono);
+}
+
+:root {
+  /* accent + status colours are shared by every palette */
+  --c-accent: #0062ff;
+  --c-accent-soft: color-mix(in srgb, var(--c-accent) 20%, transparent);
+  --c-accent-ink: #ffffff;
+  --c-danger: #e0565d;
+  --c-success: #62b17d;
+  --c-warning: #e8b65b;
+
+  --c-font: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system,
+    "Noto Sans", "Noto Sans Arabic", sans-serif;
+  --c-mono: "Cascadia Code", "Cascadia Mono", Consolas, "JetBrains Mono",
+    "Courier New", monospace;
+
+  /* surface treatment — overwritten by [data-surface] below */
+  --glass-alpha: 0.72;
+  --glass-blur: 18px;
+  --c-panel-alpha: 1;
+  --c-panel-blur: 0px;
+
+  /* wallpaper layers — written by the background settings panel */
+  --wall-url: none;
+  --wall-blur: 0px;
+  --wall-opacity: 1;
+  --wall-dim: 0;
+  --wall-shadow: 0;
+
+  /* chrome metrics */
+  --titlebar-h: 44px;
+  --dock-h: 36px;
+}
+
+/* ------------------------------------------------------------------ palettes */
+
+:root[data-mode="day"] {
+  --c-app-rgb: 240 241 244;
+  --c-panel-rgb: 255 255 255;
+  --c-elevated-rgb: 248 249 251;
+  --c-line: rgba(8, 9, 11, 0.09);
+  --c-ink: #0b0c0e;
+  --c-muted: #4e5058;
+  --c-faint: #80848e;
+  --c-shadow: 0 1px 2px rgba(16, 17, 20, 0.06), 0 8px 24px rgba(16, 17, 20, 0.06);
+}
+
+:root[data-mode="night"][data-night="onyx"] {
+  --c-app-rgb: 3 3 4;
+  --c-panel-rgb: 11 11 13;
+  --c-elevated-rgb: 18 18 21;
+  --c-line: rgba(255, 255, 255, 0.075);
+  --c-ink: #f4f1ea;
+  --c-muted: #aca79c;
+  --c-faint: #746f66;
+  --c-shadow: 0 1px 2px rgba(0, 0, 0, 0.6), 0 16px 38px rgba(0, 0, 0, 0.5);
+}
+
+:root[data-mode="night"][data-night="dark"] {
+  --c-app-rgb: 18 19 23; /* #121317 */
+  --c-panel-rgb: 26 27 31;
+  --c-elevated-rgb: 34 35 41;
+  --c-line: rgba(255, 255, 255, 0.075);
+  --c-ink: #f2f0ea;
+  --c-muted: #b3aea4;
+  --c-faint: #817c73;
+  --c-shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 14px 34px rgba(0, 0, 0, 0.4);
+}
+
+:root[data-mode="night"][data-night="ash"] {
+  --c-app-rgb: 42 43 48; /* #2A2B30 */
+  --c-panel-rgb: 51 52 58;
+  --c-elevated-rgb: 61 62 69;
+  --c-line: rgba(255, 255, 255, 0.09);
+  --c-ink: #f5f2ec;
+  --c-muted: #c3beb4;
+  --c-faint: #99948b;
+  --c-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 12px 30px rgba(0, 0, 0, 0.32);
+}
+
+:root {
+  --c-app: rgb(var(--c-app-rgb));
+  --c-panel: rgb(var(--c-panel-rgb) / var(--c-panel-alpha));
+  --c-elevated: rgb(var(--c-elevated-rgb) / var(--c-panel-alpha));
+}
+
+/* --------------------------------------------------------------- surfaces */
+
+:root[data-surface="classic"] {
+  --c-panel-alpha: 1;
+  --c-panel-blur: 0px;
+}
+
+:root[data-surface="glass"] {
+  --c-panel-alpha: var(--glass-alpha);
+  --c-panel-blur: var(--glass-blur);
+}
+
+/* ------------------------------------------------------------------- base */
+
+@layer base {
+  * {
+    border-color: var(--c-line);
+  }
+
+  html,
+  body,
+  #app {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    overflow: hidden;
+    background-color: var(--c-app);
+    color: var(--c-ink);
+    font-family: var(--c-font);
+    font-size: 14px;
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    user-select: none;
+  }
+
+  input,
+  textarea {
+    user-select: text;
+  }
+
+  ::selection {
+    background: var(--c-accent-soft);
+    color: var(--c-ink);
+  }
+
+  button {
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+
+  input[type="range"] {
+    accent-color: var(--c-accent);
+    height: 4px;
+    cursor: pointer;
+  }
+
+  input[type="color"] {
+    -webkit-appearance: none;
+    appearance: none;
+    border: none;
+    padding: 0;
+    background: none;
+    cursor: pointer;
+  }
+  input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+  input[type="color"]::-webkit-color-swatch {
+    border: 1px solid var(--c-line);
+    border-radius: 8px;
+  }
+
+  /* thin, unobtrusive scrollbars — they never steal focus from the layout */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--c-ink) 22%, transparent) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--c-ink) 20%, transparent);
+    border-radius: 999px;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--c-ink) 32%, transparent);
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@layer components {
+  .panel {
+    background-color: var(--c-panel);
+    border: 1px solid var(--c-line);
+    border-radius: 12px;
+    -webkit-backdrop-filter: blur(var(--c-panel-blur)) saturate(140%);
+    backdrop-filter: blur(var(--c-panel-blur)) saturate(140%);
+    box-shadow: var(--c-shadow);
+  }
+
+  .panel-elevated {
+    background-color: var(--c-elevated);
+    border: 1px solid var(--c-line);
+    border-radius: 10px;
+    -webkit-backdrop-filter: blur(var(--c-panel-blur)) saturate(140%);
+    backdrop-filter: blur(var(--c-panel-blur)) saturate(140%);
+    box-shadow: var(--c-shadow);
+  }
+
+  /* glass mode adds a hairline of light along the top edge, like real glass */
+  :root[data-surface="glass"] .panel,
+  :root[data-surface="glass"] .panel-elevated {
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--c-ink) 7%, transparent),
+      var(--c-shadow);
+  }
+
+  /* window chrome (title bar + console dock) rides the exact same surface
+     settings as panels — solid in classic, translucent + blurred in glass —
+     so switching styles or the glass opacity/blur sliders updates them too */
+  .chrome {
+    background-color: var(--c-elevated);
+    -webkit-backdrop-filter: blur(var(--c-panel-blur)) saturate(140%);
+    backdrop-filter: blur(var(--c-panel-blur)) saturate(140%);
+  }
+
+  :root[data-surface="glass"] .chrome {
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--c-ink) 7%, transparent);
+  }
+
+  /* the page scroller keeps its scrollbar gutter reserved, so switching tabs
+     (with content of different heights) never shoves the layout sideways */
+  .app-scroll {
+    scrollbar-gutter: stable;
+  }
+
+  .card-hover {
+    transition: background-color 0.16s ease, border-color 0.16s ease,
+      box-shadow 0.16s ease, transform 0.16s ease;
+  }
+  .card-hover:hover {
+    border-color: color-mix(in srgb, var(--c-accent) 40%, var(--c-line));
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0.9rem;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 550;
+    letter-spacing: 0.01em;
+    color: var(--c-ink);
+    background-color: color-mix(in srgb, var(--c-ink) 8%, transparent);
+    border: 1px solid var(--c-line);
+    transition: background-color 0.15s ease, border-color 0.15s ease,
+      color 0.15s ease, transform 0.1s ease;
+  }
+  .btn:hover {
+    background-color: color-mix(in srgb, var(--c-ink) 13%, transparent);
+  }
+  .btn:active {
+    transform: translateY(1px);
+  }
+  .btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .btn-accent {
+    color: var(--c-accent-ink);
+    background-color: var(--c-accent);
+    border-color: color-mix(in srgb, var(--c-accent) 70%, black);
+  }
+  .btn-accent:hover {
+    background-color: color-mix(in srgb, var(--c-accent) 86%, white);
+    color: var(--c-accent-ink);
+  }
+
+  .btn-danger {
+    color: #fff;
+    background-color: var(--c-danger);
+    border-color: color-mix(in srgb, var(--c-danger) 70%, black);
+  }
+  .btn-danger:hover {
+    background-color: color-mix(in srgb, var(--c-danger) 86%, white);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    border-color: transparent;
+  }
+  .btn-ghost:hover {
+    background-color: color-mix(in srgb, var(--c-ink) 9%, transparent);
+  }
+
+  .field {
+    width: 100%;
+    padding: 0.62rem 0.9rem;
+    border-radius: 11px;
+    background-color: color-mix(in srgb, var(--c-app) 92%, black 8%);
+    border: 1px solid var(--c-line);
+    color: var(--c-ink);
+    font-size: 13.5px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease,
+      background-color 0.15s ease;
+  }
+  .field::placeholder {
+    color: var(--c-faint);
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--c-accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--c-accent) 22%, transparent);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.22rem 0.6rem;
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-weight: 550;
+    color: var(--c-muted);
+    background-color: color-mix(in srgb, var(--c-ink) 7%, transparent);
+    border: 1px solid var(--c-line);
+  }
+
+  .switch {
+    position: relative;
+    width: 40px;
+    height: 22px;
+    border-radius: 999px;
+    background-color: color-mix(in srgb, var(--c-ink) 18%, transparent);
+    border: 1px solid var(--c-line);
+    transition: background-color 0.18s ease;
+    flex: none;
+  }
+  .switch::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    inset-inline-start: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 999px;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+    transition: transform 0.18s ease;
+  }
+  .switch[aria-checked="true"] {
+    background-color: var(--c-accent);
+    border-color: color-mix(in srgb, var(--c-accent) 70%, black);
+  }
+  .switch[aria-checked="true"]::after {
+    transform: translateX(18px);
+  }
+  /* the knob anchors to the logical start edge, so right-to-left mirrors it */
+  :root[dir="rtl"] .switch[aria-checked="true"]::after {
+    transform: translateX(-18px);
+  }
+
+  .wallpaper {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .wallpaper__image {
+    position: absolute;
+    inset: -40px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: blur(var(--wall-blur));
+    opacity: 0;
+    transform: scale(1.03);
+    /* the crossfade between two backgrounds, and smooth slider tweaks */
+    transition:
+      opacity 0.7s ease,
+      filter 0.35s ease;
+  }
+
+  .wallpaper__image.is-shown {
+    opacity: var(--wall-opacity);
+  }
+
+  .wallpaper__dim {
+    position: absolute;
+    inset: 0;
+    background-color: rgb(0 0 0 / var(--wall-dim));
+    transition: background-color 0.35s ease;
+  }
+
+  /* vignette layer that keeps panels readable over busy artwork */
+  .wallpaper__vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      120% 90% at 50% 40%,
+      transparent 20%,
+      rgb(0 0 0 / var(--wall-shadow)) 100%
+    );
+    transition: background 0.35s ease;
+  }
+
+  /* ------------------------------------------------------- transitions */
+
+  /* page / settings-section switches — a quick, even fade so nothing in the
+     layout appears to stretch while one view hands over to the next */
+  .page-enter-active {
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+
+  .page-leave-active {
+    transition: opacity 0.1s ease;
+  }
+
+  .page-enter-from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  .page-leave-to {
+    opacity: 0;
+  }
+
+  /* search dropdown */
+  .pop-enter-active,
+  .pop-leave-active {
+    transition:
+      opacity 0.16s ease,
+      transform 0.16s ease;
+  }
+
+  .pop-enter-from,
+  .pop-leave-to {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.995);
+  }
+
+  /* my-games list: added rows drop in, removed rows slide away */
+  .game-move {
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .game-enter-active {
+    transition:
+      opacity 0.25s ease,
+      transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .game-leave-active {
+    position: absolute;
+    width: 100%;
+    opacity: 0;
+    transition:
+      opacity 0.18s ease,
+      transform 0.18s ease;
+  }
+
+  .game-enter-from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  .game-leave-to {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+
+  .fade-up {
+    animation: fade-up 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .spin {
+    animation: spin 0.9s linear infinite;
+  }
+
+  .drag-region {
+    -webkit-app-region: drag;
+  }
+  .drag-region * {
+    -webkit-app-region: no-drag;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
