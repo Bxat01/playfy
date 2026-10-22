@@ -10,7 +10,7 @@ fn main() {
     let mut title = "Playfy".to_string();
     let mut start_hidden = false;
     
-    // Parse arguments
+    // Parse arguments 
     let mut i = 1;
     while i < args.len() {
         match args[i].as_str() {
