@@ -1,0 +1,3 @@
+# The bundled Discord catalogue is runtime data, not source code. Exclude it
+# from GitHub Linguist so the language bar reflects the application code.
+src/assets/gamelist.json linguist-generated=true
